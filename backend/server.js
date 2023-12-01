@@ -16,21 +16,7 @@ app.get('/', (req,res)=>{
     res.json({'status':'healthy'})
 })
 
-const server = app.listen(PORT,()=>{
+app.listen(PORT,()=>{
     console.log(`Sever is running on port ${PORT}`)
 })
 
-const io = socket(server,{
-    pingTimeout:6000,
-    cors:{
-        origin:process.env.FRONTEND_ENDPOINT
-    }
-})
-
-io.on("connection",(socket)=>{
-    console.log(`socketID ${socket.id} connected`)
-    socket.on("convertHTML",(data)=>{
-        const HTMLContents = convertor.makeHtml(data)
-        socket.emit('HTMLContents',HTMLContents)
-    })
-})
